@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# python 3.6
 import cv2
 import numpy as np
 from cv2 import waitKey, matchTemplate, threshold
@@ -10,11 +10,11 @@ import time
 
 tStart = time.time()
 
-im = cv2.imread('test2.jpg', flags=cv2.CV_LOAD_IMAGE_GRAYSCALE)
+im = cv2.imread('test2.jpg', 0) # flags=cv2.CV_LOAD_IMAGE_GRAYSCALE
 retval, im = cv2.threshold(im, 115, 255, cv2.THRESH_BINARY_INV)
 
-for i in xrange(len(im)):
-    for j in xrange(len(im[i])):
+for i in range(len(im)):
+    for j in range(len(im[i])):
         if im[i][j] == 255:
             count = 0 
             for k in range(-2, 3):
@@ -30,7 +30,8 @@ for i in xrange(len(im)):
 im = cv2.dilate(im, (2, 2), iterations=1)
 
 
-contours, hierarchy = cv2.findContours(im.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+_ ,contours, hierarchy = cv2.findContours(im.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+# print(cv2.findContours(im.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE))
 cnts = sorted([(c, cv2.boundingRect(c)[0]) for c in contours], key=lambda x:x[1])
 
 arr = []
@@ -69,8 +70,8 @@ for index, (x, y, w, h) in enumerate(arr):
         right = 0
         left = 999
 
-        for i in xrange(r):
-            for j in xrange(c):
+        for i in range(r):
+            for j in range(c):
                 if t[i][j] == 255 and left > j:
                     left = j
                 if t[i][j] == 255 and right < j:
@@ -108,11 +109,11 @@ for tmp_png in [f for f in os.listdir('tmp') if not f.startswith('.')]:
 
     arr.append(min_png)
 
-print ''.join(arr)
+print (''.join(arr))
 
 tEnd = time.time()
 
-print "Running Time : %f sec" % (tEnd - tStart)
+print ("Running Time : %f sec" % (tEnd - tStart))
 
 # cv2.imshow('image',im)
 # cv2.waitKey(0)
