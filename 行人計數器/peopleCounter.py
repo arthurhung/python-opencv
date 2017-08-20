@@ -1,3 +1,4 @@
+# python 3.6
 from __future__ import print_function
 from imutils.object_detection import non_max_suppression
 from imutils import paths
@@ -12,7 +13,7 @@ import datetime
 def peopleCounter() :
 	hog = cv2.HOGDescriptor()
 	hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-	cap = cv2.VideoCapture("Untitled 4.mp4") # 指定影片
+	cap = cv2.VideoCapture("test.mp4") # 指定影片
 	# cap = cv2.VideoCapture(0) # 使用Cam
 	temp = 0
 	temp2 = 0
@@ -23,18 +24,18 @@ def peopleCounter() :
 		(rects, weights) = hog.detectMultiScale(frame, winStride=(4, 4),padding=(8, 8), scale=1.05)
 		for (x, y, w, h) in rects:
 			cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-			cv2.circle(frame, ((x+x+w)/2, (y+y+h)/2), 7, (255, 255, 255), -1)
-			if state != 1  and 0 < (x+x+w)/2 < 175 :
+			cv2.circle(frame, ((x+x+w)//2, (y+y+h)//2), 7, (255, 255, 255), -1)
+			if state != 1  and 0 < (x+x+w)//2 < 175 :
 				if state != 0 :
 					state = 1	
-			elif state != 2  and 400 > (x+x+w)/2 > 225 :
+			elif state != 2  and 400 > (x+x+w)//2 > 225 :
 				if state != 0 :
 					state = 2
-			elif state != 3  and 175 < (x+x+w)/2 < 200 :
+			elif state != 3  and 175 < (x+x+w)//2 < 200 :
 				if state != 0 and state != 1 and state != 2:
 					temp = temp + len(rects)
 				state = 3
-			elif state != 4  and 225 > (x+x+w)/2 > 200 :
+			elif state != 4  and 225 > (x+x+w)//2 > 200 :
 				if state != 0 and state != 1 and state != 2 :
 					temp2 = temp2 + len(rects)
 				state = 4	
